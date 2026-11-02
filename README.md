@@ -1,75 +1,64 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# BREAKPOINT.
 
-Currently, two official plugins are available:
+**I BREAK THINGS. So users don't have to.**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+An interactive portfolio built by a Senior QA Engineer who enjoys exploring both software quality and frontend development.
 
-## React Compiler
+The project combines my QA experience with hands-on learning of React, TypeScript, modern CSS, and web animations.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- GSAP & ScrollTrigger
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Animated hero section
+- Interactive text animations
+- Horizontally scrolling project showcase
+- Animated project cards
+- Scroll progress indicator
+- Responsive layouts (work in progress)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Featured Projects
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **HALO** — QA for a sprint analytics platform
+- **VOICE** — Testing an interactive voting application
+- **Schedule Viewer** — Playwright E2E automation
+- **API Testing Lab** — Planned hands-on API testing project
 
+## Roadmap
+
+- [x] Project setup
+- [x] Animated hero section
+- [x] Project showcase
+- [x] Horizontal scrolling
+- [x] Scroll progress indicator
+- [ ] Project counter
+- [ ] About Me section
+- [ ] Tech Stack section
+- [ ] Interactive QA Playground
+- [ ] Playwright tests
+- [ ] Accessibility improvements
+- [ ] Deployment
+
+## Getting Started
+
+Clone the repository and install dependencies:
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Then open the local URL displayed in your terminal.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## About
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Built as a personal learning project to explore frontend engineering while showcasing practical QA experience.
 
-```
+**Status:** Work in progress.
