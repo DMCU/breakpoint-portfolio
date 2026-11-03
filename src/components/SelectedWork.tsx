@@ -3,12 +3,13 @@ import { ProjectCard } from "./ProjectCard";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function SelectedWork() {
     const sectionRef = useRef<HTMLElement>(null);
+    const [activeProject, setActiveProject] = useState(1);
 
 
     useGSAP(
@@ -36,10 +37,18 @@ export function SelectedWork() {
                     anticipatePin: 1,
                     scrub: 1,
                     invalidateOnRefresh: true,
+
                     onUpdate: (self) => {
                         gsap.set(".scroll-progress", {
                             scaleX: self.progress,
                         });
+
+                        const projectIndex = Math.min(
+                            projects.length,
+                            Math.floor(self.progress * projects.length) + 1
+                        );
+
+                        setActiveProject(projectIndex);
                     },
                 },
             });
@@ -51,9 +60,20 @@ export function SelectedWork() {
         <section
             ref={sectionRef}
             className="h-screen box-border bg-[#111111] text-white px-8 md:px-20 py-8 flex flex-col justify-center overflow-hidden">
-            <p className="text-lime-400 tracking-widest mb-4">
-                01 / SELECTED WORK
-            </p>
+            <div className="flex justify-between items-center mb-4">
+                <p className="text-lime-400 tracking-widest">
+                    01 / SELECTED WORK
+                </p>
+                <div className="font-black tracking-tighter">
+                    <span className="text-5xl">
+                        {String(activeProject).padStart(2, "0")}
+                    </span>
+
+                    <span className="text-xl text-gray-500 ml-2">
+                        / {String(projects.length).padStart(2, "0")}
+                    </span>
+                </div>
+            </div>
 
             <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-16">
                 THINGS I'VE WORKED ON.
@@ -77,10 +97,6 @@ export function SelectedWork() {
             <div className="mt-8 h-[3px] w-full bg-white/20">
                 <div className="scroll-progress h-full w-full bg-lime-400 origin-left scale-x-0" />
             </div>
-
-
-
-
         </section>
     );
 }
