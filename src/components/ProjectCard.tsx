@@ -4,9 +4,10 @@ import gsap from "gsap";
 
 type ProjectCardProps = {
   project: Project;
+  onClick?: (project: Project) => void;
 };
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, onClick }: ProjectCardProps) {
 
   const cardRef = useRef<HTMLElement>(null);
   const arrowRef = useRef<HTMLSpanElement>(null);
@@ -45,6 +46,15 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article
       ref={cardRef}
+      onClick={() => onClick?.(project)}
+      onKeyDown={(event) => {
+        if (onClick && (event.key === "Enter" || event.key === " ")) {
+          event.preventDefault();
+          onClick(project);
+        }
+      }}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className="project-card min-h-[400px] rounded-2xl p-8 flex flex-col justify-between text-black"

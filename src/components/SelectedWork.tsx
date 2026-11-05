@@ -1,15 +1,46 @@
-import { projects } from "../data/projects";
+import { projects, type Project } from "../data/projects";
 import { ProjectCard } from "./ProjectCard";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ProjectCaseStudy } from "./ProjectCaseStudy";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function SelectedWork() {
     const sectionRef = useRef<HTMLElement>(null);
     const [activeProject, setActiveProject] = useState(1);
+    const handleProjectClick = (project: Project) => {
+        window.history.pushState(
+            { breakpointCaseStudy: true },
+            "",
+            window.location.href
+        );
+        setSelectedProject(project);
+    };
+
+    useEffect(() => {
+        const handlePopState = () => {
+            setSelectedProject(null);
+        };
+
+        window.addEventListener("popstate", handlePopState);
+
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, []);
+
+    const handleCloseCaseStudy = () => {
+        if (window.history.state?.breakpointCaseStudy) {
+            window.history.back();
+        } else {
+            setSelectedProject(null);
+        }
+    };
+
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
 
     useGSAP(
@@ -68,46 +99,56 @@ export function SelectedWork() {
     );
 
     return (
-        <section
-            ref={sectionRef}
-            className="h-screen box-border bg-[#111111] text-white px-8 md:px-20 py-8 flex flex-col justify-center overflow-hidden">
-            <div className="flex justify-between items-center mb-4">
-                <p className="text-lime-400 tracking-widest">
-                    01 / SELECTED WORK
-                </p>
-                <div className="font-black tracking-tighter">
-                    <span className="text-5xl">
-                        {String(activeProject).padStart(2, "0")}
-                    </span>
+        <>
+            <section
+                ref={sectionRef}
+                className="h-screen box-border bg-[#111111] text-white px-8 md:px-20 py-8 flex flex-col justify-center overflow-hidden">
+                <div className="flex justify-between items-center mb-4">
+                    <p className="text-lime-400 tracking-widest">
+                        01 / SELECTED WORK
+                    </p>
+                    <div className="font-black tracking-tighter">
+                        <span className="text-5xl">
+                            {String(activeProject).padStart(2, "0")}
+                        </span>
 
-                    <span className="text-xl text-gray-500 ml-2">
-                        / {String(projects.length).padStart(2, "0")}
-                    </span>
+                        <span className="text-xl text-gray-500 ml-2">
+                            / {String(projects.length).padStart(2, "0")}
+                        </span>
+                    </div>
                 </div>
-            </div>
 
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-8">
-                THINGS I'VE WORKED ON.
-            </h2>
+                <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-8">
+                    THINGS I'VE WORKED ON.
+                </h2>
 
 
-            <div className="project-viewport overflow-hidden py-4">
-                <div className="project-track flex gap-6 w-max">
-                    {projects.map((project) => (
-                        <div
-                            key={project.id}
-                            className="w-[80vw] md:w-[55vw] lg:w-[40vw] shrink-0"
-                        >
-                            <ProjectCard project={project} />
-                        </div>
-                    ))}
+                <div className="project-viewport overflow-hidden py-4">
+                    <div className="project-track flex gap-6 w-max">
+                        {projects.map((project) => (
+                            <div
+                                key={project.id}
+                                className="w-[80vw] md:w-[55vw] lg:w-[40vw] shrink-0"
+                            >
+                                <ProjectCard
+                                    project={project}
+                                    onClick={handleProjectClick} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
 
 
-            <div className="mt-8 h-[3px] w-full bg-white/20">
-                <div className="scroll-progress h-full w-full bg-lime-400 origin-left scale-x-0" />
-            </div>
-        </section>
+                <div className="mt-8 h-[3px] w-full bg-white/20">
+                    <div className="scroll-progress h-full w-full bg-lime-400 origin-left scale-x-0" />
+                </div>
+            </section>
+            {selectedProject && (
+                <ProjectCaseStudy
+                    project={selectedProject}
+                    onClose={handleCloseCaseStudy}
+                />
+            )}
+        </>
     );
 }
